@@ -92,8 +92,6 @@
 				<layout:Grid content="{products>/}">
 				<layout:content>
 
-
-
 				<f:Card class="sapUiTinyMarginTop" width="100%">
 				<f:content>
 				<VBox >

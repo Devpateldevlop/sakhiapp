@@ -28,6 +28,19 @@ sap.ui.define([
         {
             
             this.getView().byId('pageContainer').to(this.getView().byId(oevent.getParameter("key")))
+        },
+        opendialog:function()
+        {
+              var pDialog2
+                if (!pDialog2) {
+                    pDialog2 = this.loadFragment({
+                        name: "project1.fragment.dialog",
+                    });
+                }
+                pDialog2.then(function (oDialog1) {
+                    oDialog1.open();
+                });
+
         }
     });
 });
