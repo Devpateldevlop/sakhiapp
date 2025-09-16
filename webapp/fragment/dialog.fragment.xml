@@ -1,0 +1,14 @@
+<m:Dialog xmlns:m="sap.m" xmlns="sap.m" >
+<m:content>
+<Panel class="sapUiTinyMargin" width="95%">
+					<form:SimpleForm >
+					<Label text="Category Name :"></Label>
+					<Input ></Input>
+					<Label text="Photo"></Label>
+					<unified:FileUploader fileType="jpeg,png,jpg" buttonOnly="false" maximumFileSize="400kb" fileSizeExceed=".filesize"></unified:FileUploader>
+					</form:SimpleForm>
+					</Panel>
+				
+</m:content>
+
+</m:Dialog>

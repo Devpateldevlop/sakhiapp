@@ -1,0 +1,129 @@
+<mvc:View xmlns:cssgrid="sap.ui.layout.cssgrid" xmlns:f="sap.f" xmlns:layout="sap.ui.layout" xmlns:unified="sap.ui.unified" xmlns:form="sap.ui.layout.form" controllerName="project1.controller.View1"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"	
+    xmlns:tnt="sap.tnt"
+	height="100%">
+	<tnt:ToolPage id="toolPage">
+		<tnt:header>
+			<tnt:ToolHeader>
+				<Image height="1.5rem"
+					class="sapUiSmallMarginBegin"
+					src="https://www.sap.com/dam/application/shared/logos/sap-logo-svg.svg" />
+				<Title level="H1" text="Product Name" wrapping="false" id="productName">
+					<layoutData>
+						<OverflowToolbarLayoutData priority="Disappear"/>
+					</layoutData>
+				</Title>
+				
+				<tnt:ToolHeaderUtilitySeparator/>
+				<ToolbarSpacer />
+				<Avatar src="test-resources/sap/tnt/images/Woman_avatar_01.png" displaySize="XS" tooltip="Profile">
+					<layoutData>
+						<OverflowToolbarLayoutData priority="NeverOverflow"/>
+					</layoutData>
+				</Avatar>
+			</tnt:ToolHeader>
+		</tnt:header>
+		<tnt:subHeader>
+			<tnt:ToolHeader>
+				<IconTabHeader
+				 select="tabselect"
+						mode="Inline">
+					<layoutData>
+						<OverflowToolbarLayoutData priority="NeverOverflow" shrinkable="true" />
+					</layoutData>
+					<items>
+						<IconTabFilter
+								text="Categories"
+								key="Categories">
+						</IconTabFilter>
+							<IconTabFilter
+								text="Products"
+								key="Products">
+						</IconTabFilter>
+					</items>
+				</IconTabHeader>
+			</tnt:ToolHeader>
+		</tnt:subHeader>
+		<tnt:mainContents>
+			<NavContainer id="pageContainer" initialPage="page1">
+				
+					<Page showHeader="false" showFooter="true" floatingFooter="true" id="Categories">
+					<footer>
+					<OverflowToolbar >
+					<ToolbarSpacer ></ToolbarSpacer>
+					<Button text="ADD" type="Emphasized" press="opendialog"></Button>
+					<ToolbarSpacer ></ToolbarSpacer>
+					</OverflowToolbar>
+					</footer>
+				<content>
+					<layout:Grid content="{categories>/}">
+					<f:Card class="sapUiTinyMarginTop">
+					<f:content>
+
+				<HBox justifyContent="SpaceBetween" >
+
+				<Avatar src="{categories>image}" class="sapUiTinyMargin" displaySize="L" displayShape="Square" />
+				<VBox justifyContent="SpaceBetween">
+				<Label class="sapUiTinyMarginTop"  text="Name"></Label>
+				<Label design="Bold" text="{categories>name}"></Label>
+				<HBox >	
+				<Button type="Emphasized" class="sapUiSmallMargin" text="Edit" width="80px"></Button>
+				<Button type="Reject" class="sapUiSmallMargin"  text="Delete" width="80px"></Button>
+				</HBox>	
+				</VBox>
+				</HBox>
+				</f:content>
+					
+				</f:Card>
+				</layout:Grid>
+				</content>
+				</Page >
+
+				<Page id="Products" showFooter="true" floatingFooter="true" showHeader="false">
+				<footer>
+					<OverflowToolbar >
+					<ToolbarSpacer ></ToolbarSpacer>
+					<Button text="+ ADD" type="Emphasized" press="opendialog"></Button>
+					<ToolbarSpacer ></ToolbarSpacer>
+					</OverflowToolbar>
+					</footer>
+				<content>
+				<layout:Grid content="{products>/}">
+				<layout:content>
+
+
+
+				<f:Card class="sapUiTinyMarginTop" width="100%">
+				<f:content>
+				<VBox >
+				<HBox  justifyContent="Start" >
+				<!-- <Image src="{products>images/0}" backgroundSize="cover" width="90%" height="10%"></Image> -->
+				<Avatar src="{products>images/0}" class="sapUiTinyMargin" displaySize="XL" displayShape="Square" />
+				<VBox wrap="Wrap">
+				<Label design="Bold" class='sapUiTinyMargin' text="{products>name}"></Label>
+				<Label wrapping="true" text="{products>description}" class='sapUiTinyMargin' ></Label>
+				<Title wrapping="true" text="{products>price}" class='sapUiTinyMargin' ></Title>
+				</VBox>
+			    </HBox>
+			
+				<HBox >	
+				<Button type="Emphasized" class="sapUiSmallMargin" text="Edit" width="100px"></Button>
+				<Button type="Reject" class="sapUiSmallMargin"  text="Delete" width="100px"></Button>
+				</HBox>		
+
+				</VBox>
+				</f:content>
+				</f:Card>
+
+
+
+				</layout:content>
+				</layout:Grid>
+				</content>
+				</Page>
+			
+			</NavContainer>
+		</tnt:mainContents>
+	</tnt:ToolPage>
+</mvc:View>
