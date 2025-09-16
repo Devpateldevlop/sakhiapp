@@ -69,7 +69,7 @@
 				<Label design="Bold" text="{categories>name}"></Label>
 				<HBox >	
 				<Button type="Emphasized" class="sapUiSmallMargin" text="Edit" width="80px"></Button>
-				<Button type="Reject" class="sapUiSmallMargin"  text="Delete" width="80px"></Button>
+				<Button type="Reject" class="sapUiSmallMargin"  text="Delete" width="80px" press="ondelete"></Button>
 				</HBox>	
 				</VBox>
 				</HBox>

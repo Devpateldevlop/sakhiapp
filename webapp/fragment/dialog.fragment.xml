@@ -1,16 +1,24 @@
-<m:Dialog title="Add" xmlns:unified="sap.ui.unified" xmlns:form="sap.ui.layout.form" xmlns:m="sap.m" xmlns="sap.m" >
-<m:content>
-<Panel class="sapUiTinyMargin" width="95%">
-					<form:SimpleForm >
-					<Label text="Category Name :"></Label>
-					<Input ></Input>
-					<Label text="Photo"></Label>
-					<unified:FileUploader fileType="jpeg,png,jpg" buttonOnly="false" maximumFileSize="400kb" fileSizeExceed=".filesize"></unified:FileUploader>
-					</form:SimpleForm>
-					</Panel>
-				
-</m:content>
-<m:beginButton>
-<m:Button text="Close" type="Reject" press="onCloseDialog"> </m:Button>
-</m:beginButton>
+<m:Dialog titleAlignment="Center" title="Add"
+	xmlns:unified="sap.ui.unified"
+	xmlns:form="sap.ui.layout.form"
+	xmlns:m="sap.m"
+	xmlns="sap.m">
+	<m:content>
+		<Panel class="sapUiTinyMargin" width="95%">
+			<form:SimpleForm >
+				<Label text="Category Name :"></Label>
+				<Input id="categname"></Input>
+				<Label text="Photo"></Label>
+				<unified:FileUploader id="fileUploader"  change="handleUploadComplete"  uploadComplete="handleUploadComplete" >
+				</unified:FileUploader>
+			</form:SimpleForm>
+		</Panel>
+
+	</m:content>
+	<m:beginButton>
+		<m:Button text="Close" type="Reject" press="onCloseDialog"></m:Button>
+	</m:beginButton>
+	<m:endButton>
+		<m:Button text="Submit" type="Emphasized" press="addcategories"></m:Button>
+	</m:endButton>
 </m:Dialog>
