@@ -120,7 +120,7 @@ sap.ui.define([
                 headers: {
                     "Content-Type": "application/json"
                 },
-                body: JSON.stringify({ catb: catbdy })
+                body: JSON.stringify(catbdy)
             }
             )
                 .then(res => {
