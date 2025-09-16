@@ -41,6 +41,12 @@ sap.ui.define([
                     oDialog1.open();
                 });
 
+        },
+        onCloseDialog:function(oevent)
+        {
+            oevent.getSource().getParent().destroy()
+            oevent.getSource().getParent().close()
+
         }
     });
 });
