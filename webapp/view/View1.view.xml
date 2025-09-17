@@ -121,11 +121,11 @@
 				<VBox >
 				<HBox  justifyContent="Start" >
 				<!-- <Image src="{products>images/0}" backgroundSize="cover" width="90%" height="10%"></Image> -->
-				<Avatar active="true" src="{products>images/0}" class="sapUiTinyMargin" displaySize="XL" displayShape="Square" >
+				<Avatar active="true" src="{products>images}" class="sapUiTinyMargin" displaySize="XL" displayShape="Square" >
 				<detailBox>
 						<LightBox>
 							<LightBoxItem
-								imageSrc="{products>images/0}"
+								imageSrc="{products>images}"
 								title="{products>name}" />
 						</LightBox>
 					</detailBox>

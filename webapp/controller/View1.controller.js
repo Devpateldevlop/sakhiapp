@@ -87,28 +87,10 @@ sap.ui.define([
         },
         afterupload: async function (oevent) {
             oevent.getSource().getParent().destroy()
-
-            try {
-                const response = await fetch("https://sakhiculapi.vercel.app/api/categories");
-                const categories = await response.json();
-                this.getView().getModel("categories").setData(categories)
-                this.getView().getModel("categories").refresh()
-            }
-            catch {
-
-            }
-
-
-              try {
-                const response = await fetch("https://sakhiculapi.vercel.app/api/product");
-                const products = await response.json();
-                this.getView().getModel("addproductdialog").setData(products)
-                this.getView().getModel("addproductdialog").refresh()
-            }
-            catch {
-
-            }
-
+             this.getView().getModel("categories").setData("")
+                    this.getView().getModel("categories").refresh(true)
+                     this.getView().getModel("categories").setData("")
+                    this.getView().getModel("categories").refresh(true)
             sap.ui.core.BusyIndicator.hide()
 
 
@@ -121,7 +103,6 @@ sap.ui.define([
                 reader.onload = function (e) {
                     var base64Image = e.target.result;
                     that.imagebas = base64Image
-                    console.log(base64Image);
                 };
                 reader.readAsDataURL(file);
             }
@@ -198,6 +179,7 @@ sap.ui.define([
         {
           var data=  this.getView().getModel("addproductdialog").getData()
           data.images=this.imagebas
+          var that=this
 
           fetch("https://sakhiculapi.vercel.app/api/product", {
                 method: "POST",
@@ -220,7 +202,20 @@ sap.ui.define([
                     sap.m.MessageToast.show("Upload failed: " + error.message);
                     console.error("Error:", error);
                 });
-        }
+
+                 setTimeout(async () => {
+
+                try {
+                const response = await fetch("https://sakhiculapi.vercel.app/api/product");
+                const products = await response.json();
+                this.getView().getModel("addproductdialog").setData(products)
+                this.getView().getModel("addproductdialog").refresh(true)
+                }
+                catch {
+
+                }
+            }, 2000);
+            }
 
 
     });
