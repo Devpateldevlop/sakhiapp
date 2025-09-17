@@ -108,7 +108,7 @@
 				<footer>
 					<OverflowToolbar >
 					<ToolbarSpacer ></ToolbarSpacer>
-					<Button text="+ ADD Product" type="Emphasized" press="opendialogproduct"></Button>
+					<Button text="+ ADD Product" type="Emphasized" press="opendialog"></Button>
 					<ToolbarSpacer ></ToolbarSpacer>
 					</OverflowToolbar>
 					</footer>
@@ -139,7 +139,7 @@
 			
 				<HBox >	
 				<Button type="Emphasized" class="sapUiSmallMargin" text="Edit" width="100px"></Button>
-				<Button type="Reject" class="sapUiSmallMargin"  text="Delete" width="100px"></Button>
+				<Button type="Reject" class="sapUiSmallMargin"  text="Delete" width="100px" press="deleteproduct"></Button>
 				</HBox>		
 
 				</VBox>

@@ -1,15 +1,21 @@
 sap.ui.define([
-    "sap/ui/core/mvc/Controller"
-], (Controller) => {
+    "sap/ui/core/mvc/Controller",
+    "sap/m/MessageBox"
+], (Controller, MessageBox) => {
     "use strict";
 
     return Controller.extend("project1.controller.View1", {
-        async onInit() {
+
+        async apicall() {
+            sap.ui.core.BusyIndicator.show()
+            var a = new sap.ui.model.json.JSONModel({})
+            this.getView().setModel(a, "addproductdialog")
             try {
                 const response = await fetch("https://sakhiculapi.vercel.app/api/categories");
                 const categories = await response.json();
                 var j = new sap.ui.model.json.JSONModel(categories)
                 this.getView().setModel(j, "categories")
+                sap.ui.core.BusyIndicator.hide()
             }
             catch {
 
@@ -20,37 +26,55 @@ sap.ui.define([
                 const products = await response.json();
                 var p = new sap.ui.model.json.JSONModel(products)
                 this.getView().setModel(p, "products")
+                sap.ui.core.BusyIndicator.hide()
             }
             catch {
 
             }
 
-            var a = new sap.ui.model.json.JSONModel({})
-            this.getView().setModel(a,"addproductdialog")
+        },
+        onInit() {
+
+            this.apicall()
         },
         tabselect: function (oevent) {
             this.getView().byId('pageContainer').to(this.getView().byId(oevent.getParameter("key")))
+            this.tabname = oevent.getParameter("key")
         },
         opendialog: function () {
             var pDialog2
-            if (!pDialog2) {
-                // new sap.m.BusyIndicator.show()
-                pDialog2 = this.loadFragment({
-                    name: "project1.fragment.dialog",
-                });
-            }
-            pDialog2.then(function (oDialog1) {
-                // new sap.m.BusyIndicator.hide()
-                oDialog1.open();
-            });
+            var dia
 
+            if (this.tabname == "Categories" || this.tabname == undefined) {
+                if (!pDialog2) {
+                    // new sap.m.BusyIndicator.show()
+                    pDialog2 = this.loadFragment({
+                        name: "project1.fragment.addcategory",
+                    });
+                }
+                pDialog2.then(function (oDialog1) {
+                    // new sap.m.BusyIndicator.hide()
+                    oDialog1.open();
+                });
+
+            } else {
+                if (!pDialog2) {
+                    // new sap.m.BusyIndicator.show()
+                    pDialog2 = this.loadFragment({
+                        name: "project1.fragment.addproduct",
+                    });
+                }
+                pDialog2.then(function (oDialog1) {
+                    // new sap.m.BusyIndicator.hide()
+                    oDialog1.open();
+                });
+
+            }
 
 
         },
         onCloseDialog: function (oevent) {
             oevent.getSource().getParent().destroy()
-            oevent.getSource().getParent().close()
-
         },
         addcategories: function (oevent) {
             sap.ui.core.BusyIndicator.show()
@@ -87,10 +111,11 @@ sap.ui.define([
         },
         afterupload: async function (oevent) {
             oevent.getSource().getParent().destroy()
-             this.getView().getModel("categories").setData("")
-                    this.getView().getModel("categories").refresh(true)
-                     this.getView().getModel("categories").setData("")
-                    this.getView().getModel("categories").refresh(true)
+            this.getView().getModel("categories").setData("")
+            this.getView().getModel("categories").refresh(true)
+            this.getView().getModel("categories").setData("")
+            this.getView().getModel("categories").refresh(true)
+            this.apicall()
             sap.ui.core.BusyIndicator.hide()
 
 
@@ -158,35 +183,23 @@ sap.ui.define([
 
         },
 
-        opendialogproduct:  function()
-        {
-            var pDialog2
-            if (!pDialog2) {
-                // new sap.m.BusyIndicator.show()
-                pDialog2 = this.loadFragment({
-                    name: "project1.fragment.editproduct",
-                });
+        addproduct: function (oevent) {
+            var payload = this.getView().getModel("addproductdialog").getData()
+            payload.images = this.imagebas
+            var that = this
+           sap.ui.core.BusyIndicator.show()
+            if (payload.categoryname == undefined || payload.categoryname == "" || payload.price == undefined || payload.price == "" || payload.name == undefined || payload.name == "") {
+                MessageBox.error("Data bharne Badho")
+                return
             }
-            pDialog2.then(function (oDialog1) {
-                // new sap.m.BusyIndicator.hide()
-                oDialog1.open();
-            });
 
-            
 
-        },
-        addproduct:function(oevent)
-        {
-          var data=  this.getView().getModel("addproductdialog").getData()
-          data.images=this.imagebas
-          var that=this
-
-          fetch("https://sakhiculapi.vercel.app/api/product", {
+            fetch("https://sakhiculapi.vercel.app/api/product", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
                 },
-                body: JSON.stringify(data)
+                body: JSON.stringify(payload)
             })
                 .then(response => {
                     if (!response.ok) {
@@ -203,20 +216,51 @@ sap.ui.define([
                     console.error("Error:", error);
                 });
 
-                 setTimeout(async () => {
+        },
+        deleteproduct: function (oevent) {
+            var prodbody = oevent.getSource().getParent().getParent().getParent().getBindingContext("products").getObject()
+            var that=this
+            MessageBox.confirm("Are you sure you want to delete this category?", {
+                title: "Confirm Deletion",
+                actions: [sap.m.MessageBox.Action.OK, sap.m.MessageBox.Action.CANCEL],
+                onClose: function (oAction) {
+                    if (oAction === sap.m.MessageBox.Action.OK) {
+                        sap.ui.core.BusyIndicator.show()
 
-                try {
-                const response = await fetch("https://sakhiculapi.vercel.app/api/product");
-                const products = await response.json();
-                this.getView().getModel("addproductdialog").setData(products)
-                this.getView().getModel("addproductdialog").refresh(true)
+                    fetch("https://sakhiculapi.vercel.app/api/product", {
+                        method: "DELETE",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify(prodbody)
+                    })
+                    .then(res => {
+                        if (!res.ok) {
+                            throw new Error("Delete failed");
+                        }
+                        sap.ui.core.BusyIndicator.hide()
+                        return res.json();
+
+                    })
+                    .then(data => {
+                        sap.m.MessageToast.show(data.message);
+                        console.log("Deleted:", data);
+                        that.afterupload(oevent)
+                        // optional: refresh model or update UI
+                    })
+                    .catch(err => {
+                        sap.m.MessageToast.show("Error: " + err.message);
+                        console.error(err);
+                        sap.ui.core.BusyIndicator.hide()
+
+                    });
                 }
-                catch {
-
-                }
-            }, 2000);
-            }
-
+           
+            
+             }         
+        
+         })
+     }
 
     });
 });
