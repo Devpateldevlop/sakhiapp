@@ -81,7 +81,7 @@
 				<Label class="sapUiTinyMarginTop"  text="Name"></Label>
 				<Label design="Bold" text="{categories>name}"></Label>
 				<HBox >	
-				<Button type="Emphasized" class="sapUiSmallMargin" text="Edit" width="80px"></Button>
+				<Button type="Emphasized" class="sapUiSmallMargin" text="Edit" width="80px" ></Button>
 				<Button type="Reject" class="sapUiSmallMargin"  text="Delete" width="80px" press="ondelete"></Button>
 				</HBox>	
 				</VBox>
@@ -138,7 +138,7 @@
 			    </HBox>
 			
 				<HBox >	
-				<Button type="Emphasized" class="sapUiSmallMargin" text="Edit" width="100px"></Button>
+				<Button type="Emphasized" class="sapUiSmallMargin" text="Edit" width="100px" press="oneditproddialog"></Button>
 				<Button type="Reject" class="sapUiSmallMargin"  text="Delete" width="100px" press="deleteproduct"></Button>
 				</HBox>		
 

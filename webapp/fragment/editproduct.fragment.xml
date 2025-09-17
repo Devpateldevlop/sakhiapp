@@ -1,0 +1,40 @@
+<m:Dialog titleAlignment="Center" title="Add"
+	xmlns:unified="sap.ui.unified"
+    xmlns:core="sap.ui.core"
+	xmlns:form="sap.ui.layout.form"
+	xmlns:m="sap.m"
+	xmlns="sap.m">
+	<m:content>
+		<Panel class="sapUiTinyMargin" width="95%">
+			<form:SimpleForm >
+				<Label text="Product Name"></Label>
+				<Input value="{editproductdialog>/name}"></Input>
+				<Label text="Description"></Label>
+				<m:TextArea value="{editproductdialog>/description}"></m:TextArea>
+				<Label text="Price"></Label>
+				<m:StepInput value="{editproductdialog>/price}"></m:StepInput>
+				<Label text="Photo"></Label>
+                <unified:FileUploader   change="handleUploadComplete"  uploadComplete="handleUploadComplete" >
+				</unified:FileUploader>
+				<Label text="Size"></Label>
+				<Input value="{editproductdialog>/size}"></Input>
+				<Label text="Category" required="true"></Label>
+					<Select
+						forceSelection="false"
+						selectedKey="{editproductdialog>/categoryname}"
+						items="{categories>/}">
+					<core:Item key="{categories>name}" text="{categories>name}" />
+				</Select>
+				
+				
+			</form:SimpleForm>
+		</Panel>
+
+	</m:content>
+	<m:beginButton>
+		<m:Button text="Close" type="Reject" press="onCloseDialog"></m:Button>
+	</m:beginButton>
+	<m:endButton>
+		<m:Button text="Submit" type="Emphasized" press="editprod"></m:Button>
+	</m:endButton>
+</m:Dialog>

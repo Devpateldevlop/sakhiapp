@@ -34,7 +34,8 @@ sap.ui.define([
 
         },
         onInit() {
-
+            var b = new sap.ui.model.json.JSONModel({})
+            this.getView().setModel(b, "editproductdialog")
             this.apicall()
         },
         tabselect: function (oevent) {
@@ -182,12 +183,60 @@ sap.ui.define([
             }, 2000);
 
         },
+        oneditproddialog: function (oevent) {
+            var pDialog2
+             if (!pDialog2) {
+                    // new sap.m.BusyIndicator.show()
+                    pDialog2 = this.loadFragment({
+                        name: "project1.fragment.editproduct",
+                    });
+                }
+                pDialog2.then(function (oDialog1) {
+                    // new sap.m.BusyIndicator.hide()
+                    oDialog1.open();
+                });
+
+
+            var prodbody = oevent.getSource().getParent().getParent().getParent().getBindingContext("products").getObject()
+             delete prodbody.categoryname
+            this.getView().getModel("editproductdialog").setData(prodbody)
+            this.getView().getModel("editproductdialog").refresh(true)
+            this.editimage=prodbody.images
+           
+        },
+        editprod:function(oevent)
+        {   var that=this
+             var p= this.getView().getModel("editproductdialog").getData()
+             if(p.images==undefined || p.images=="")
+             {
+                p.images === this.editimage
+             }
+                
+
+             if (p.categoryname == undefined || p.categoryname == "" || p.price== undefined || p.price == "" || p.name == undefined || p.name == "") {
+                MessageBox.error("Data bharne Badho")
+                return
+            }
+
+             fetch("https://sakhiculapi.vercel.app/api/product", {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(p)   // send whole object
+            })
+                .then(res => {
+                    that.afterupload(oevent)
+
+                })
+                .then(data => console.log("Updated:", data))
+                .catch(err => console.error("Error:", err));
+
+        },
 
         addproduct: function (oevent) {
             var payload = this.getView().getModel("addproductdialog").getData()
             payload.images = this.imagebas
             var that = this
-           sap.ui.core.BusyIndicator.show()
+            sap.ui.core.BusyIndicator.show()
             if (payload.categoryname == undefined || payload.categoryname == "" || payload.price == undefined || payload.price == "" || payload.name == undefined || payload.name == "") {
                 MessageBox.error("Data bharne Badho")
                 return
@@ -219,7 +268,7 @@ sap.ui.define([
         },
         deleteproduct: function (oevent) {
             var prodbody = oevent.getSource().getParent().getParent().getParent().getBindingContext("products").getObject()
-            var that=this
+            var that = this
             MessageBox.confirm("Are you sure you want to delete this category?", {
                 title: "Confirm Deletion",
                 actions: [sap.m.MessageBox.Action.OK, sap.m.MessageBox.Action.CANCEL],
@@ -227,40 +276,40 @@ sap.ui.define([
                     if (oAction === sap.m.MessageBox.Action.OK) {
                         sap.ui.core.BusyIndicator.show()
 
-                    fetch("https://sakhiculapi.vercel.app/api/product", {
-                        method: "DELETE",
-                        headers: {
-                            "Content-Type": "application/json"
-                        },
-                        body: JSON.stringify(prodbody)
-                    })
-                    .then(res => {
-                        if (!res.ok) {
-                            throw new Error("Delete failed");
-                        }
-                        sap.ui.core.BusyIndicator.hide()
-                        return res.json();
+                        fetch("https://sakhiculapi.vercel.app/api/product", {
+                            method: "DELETE",
+                            headers: {
+                                "Content-Type": "application/json"
+                            },
+                            body: JSON.stringify(prodbody)
+                        })
+                            .then(res => {
+                                if (!res.ok) {
+                                    throw new Error("Delete failed");
+                                }
+                                sap.ui.core.BusyIndicator.hide()
+                                return res.json();
 
-                    })
-                    .then(data => {
-                        sap.m.MessageToast.show(data.message);
-                        console.log("Deleted:", data);
-                          that.apicall()
-                        // optional: refresh model or update UI
-                    })
-                    .catch(err => {
-                        sap.m.MessageToast.show("Error: " + err.message);
-                        console.error(err);
-                        sap.ui.core.BusyIndicator.hide()
+                            })
+                            .then(data => {
+                                sap.m.MessageToast.show(data.message);
+                                console.log("Deleted:", data);
+                                that.apicall()
+                                // optional: refresh model or update UI
+                            })
+                            .catch(err => {
+                                sap.m.MessageToast.show("Error: " + err.message);
+                                console.error(err);
+                                sap.ui.core.BusyIndicator.hide()
 
-                    });
+                            });
+                    }
+
+
                 }
-           
-            
-             }         
-        
-         })
-     }
+
+            })
+        }
 
     });
 });
