@@ -228,7 +228,7 @@ sap.ui.define([
             })
                 .then(res => {
                     that.afterupload(oevent)
-
+                    sap.m.MessageToast.show("Update successful!");
                 })
                 .then(data => console.log("Updated:", data))
                 .catch(err => console.error("Error:", err));
