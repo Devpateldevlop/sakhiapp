@@ -206,6 +206,7 @@ sap.ui.define([
         },
         editprod:function(oevent)
         {   var that=this
+               sap.ui.core.BusyIndicator.show()
              var p= this.getView().getModel("editproductdialog").getData()
              if(p.images==undefined || p.images=="")
              {
