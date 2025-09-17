@@ -24,6 +24,9 @@ sap.ui.define([
             catch {
 
             }
+
+            var a = new sap.ui.model.json.JSONModel({})
+            this.getView().setModel(a,"addproductdialog")
         },
         tabselect: function (oevent) {
             this.getView().byId('pageContainer').to(this.getView().byId(oevent.getParameter("key")))
@@ -40,6 +43,8 @@ sap.ui.define([
                 // new sap.m.BusyIndicator.hide()
                 oDialog1.open();
             });
+
+
 
         },
         onCloseDialog: function (oevent) {
@@ -92,6 +97,18 @@ sap.ui.define([
             catch {
 
             }
+
+
+              try {
+                const response = await fetch("https://sakhiculapi.vercel.app/api/product");
+                const products = await response.json();
+                this.getView().getModel("addproductdialog").setData(products)
+                this.getView().getModel("addproductdialog").refresh()
+            }
+            catch {
+
+            }
+
             sap.ui.core.BusyIndicator.hide()
 
 
@@ -158,9 +175,52 @@ sap.ui.define([
                 }
             }, 2000);
 
+        },
+
+        opendialogproduct:  function()
+        {
+            var pDialog2
+            if (!pDialog2) {
+                // new sap.m.BusyIndicator.show()
+                pDialog2 = this.loadFragment({
+                    name: "project1.fragment.editproduct",
+                });
+            }
+            pDialog2.then(function (oDialog1) {
+                // new sap.m.BusyIndicator.hide()
+                oDialog1.open();
+            });
+
+            
+
+        },
+        addproduct:function(oevent)
+        {
+          var data=  this.getView().getModel("addproductdialog").getData()
+          data.images=this.imagebas
+
+          fetch("https://sakhiculapi.vercel.app/api/product", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(data)
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error("Upload failed");
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    sap.m.MessageToast.show("Upload successful!");
+                    that.afterupload(oevent)
+                })
+                .catch(error => {
+                    sap.m.MessageToast.show("Upload failed: " + error.message);
+                    console.error("Error:", error);
+                });
         }
-
-
 
 
     });

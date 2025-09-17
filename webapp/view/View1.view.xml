@@ -57,7 +57,7 @@
 					<footer>
 					<OverflowToolbar >
 					<ToolbarSpacer ></ToolbarSpacer>
-					<Button text="ADD" type="Emphasized" press="opendialog"></Button>
+					<Button text="+ ADD Category" type="Emphasized" press="opendialog"></Button>
 					<ToolbarSpacer ></ToolbarSpacer>
 					</OverflowToolbar>
 					</footer>
@@ -108,7 +108,7 @@
 				<footer>
 					<OverflowToolbar >
 					<ToolbarSpacer ></ToolbarSpacer>
-					<Button text="+ ADD" type="Emphasized" press="opendialog"></Button>
+					<Button text="+ ADD Product" type="Emphasized" press="opendialogproduct"></Button>
 					<ToolbarSpacer ></ToolbarSpacer>
 					</OverflowToolbar>
 					</footer>
