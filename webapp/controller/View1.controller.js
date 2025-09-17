@@ -216,6 +216,8 @@ sap.ui.define([
 
              if (p.categoryname == undefined || p.categoryname == "" || p.price== undefined || p.price == "" || p.name == undefined || p.name == "") {
                 MessageBox.error("Data bharne Badho")
+               sap.ui.core.BusyIndicator.hide()
+
                 return
             }
 
