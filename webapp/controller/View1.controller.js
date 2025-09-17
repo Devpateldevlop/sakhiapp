@@ -245,7 +245,7 @@ sap.ui.define([
                     .then(data => {
                         sap.m.MessageToast.show(data.message);
                         console.log("Deleted:", data);
-                        that.afterupload(oevent)
+                          that.apicall()
                         // optional: refresh model or update UI
                     })
                     .catch(err => {
