@@ -96,7 +96,9 @@ sap.ui.define([
                     if (!response.ok) {
                         throw new Error("Upload failed");
                     }
+                    sap.ui.core.BusyIndicator.hide()
                     return response.json();
+
                 })
                 .then(data => {
                     sap.m.MessageToast.show("Upload successful!");
@@ -104,6 +106,7 @@ sap.ui.define([
                 })
                 .catch(error => {
                     sap.m.MessageToast.show("Upload failed: " + error.message);
+                    sap.ui.core.BusyIndicator.hide()
                     console.error("Error:", error);
                 });
 
@@ -223,8 +226,14 @@ sap.ui.define([
                     that.afterupload(oevent)
                     sap.m.MessageToast.show("Update successful!");
                 })
-                .then(data => console.log("Updated:", data))
-                .catch(err => console.error("Error:", err));
+                .then(data =>{
+                    sap.ui.core.BusyIndicator.hide()
+                     sap.m.MessageToast.show("Update Un successful?");
+                })
+                .catch(err => {
+                    sap.ui.core.BusyIndicator.hide()
+                    sap.m.MessageToast.show("Update Un successful?");
+                });
 
         },
 
@@ -251,6 +260,10 @@ sap.ui.define([
                     if (!response.ok) {
                         throw new Error("Upload failed");
                     }
+                    
+                    sap.ui.core.BusyIndicator.hide()
+                    sap.m.MessageToast.show(" Un successful?");
+                
                     return response.json();
                 })
                 .then(data => {
@@ -259,6 +272,9 @@ sap.ui.define([
                 })
                 .catch(error => {
                     sap.m.MessageToast.show("Upload failed: " + error.message);
+                    
+                    sap.ui.core.BusyIndicator.hide()
+                
                     console.error("Error:", error);
                 });
 
