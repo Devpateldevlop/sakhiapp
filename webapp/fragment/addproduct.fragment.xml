@@ -18,6 +18,8 @@
 				</unified:FileUploader>
 				<Label text="Size"></Label>
 				<Input value="{addproductdialog>/size}"></Input>
+				<Label text="Length"></Label>
+				<Input type="Number" value="{addproductdialog>/length}"></Input>
 				<Label text="Category" required="true"></Label>
 					<Select
 						forceSelection="false"
