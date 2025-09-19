@@ -71,8 +71,6 @@ sap.ui.define([
                 });
 
             }
-
-
         },
         onCloseDialog: function (oevent) {
             oevent.getSource().getParent().destroy()
@@ -118,8 +116,6 @@ sap.ui.define([
             this.getView().getModel("categories").refresh(true)
             this.apicall()
             sap.ui.core.BusyIndicator.hide()
-
-
         },
         handleUploadComplete: function (oEvent) {
             var file = oEvent.getParameter('files')[0];
@@ -175,7 +171,6 @@ sap.ui.define([
                     this.getView().getModel("categories").setData(categories)
                     this.getView().getModel("categories").refresh(true)
                     sap.ui.core.BusyIndicator.hide()
-
                 }
                 catch {
 
@@ -213,11 +208,9 @@ sap.ui.define([
                 p.images === this.editimage
              }
                 
-
              if (p.categoryname == undefined || p.categoryname == "" || p.price== undefined || p.price == "" || p.name == undefined || p.name == "") {
                 MessageBox.error("Data bharne Badho")
-               sap.ui.core.BusyIndicator.hide()
-
+                sap.ui.core.BusyIndicator.hide()
                 return
             }
 
@@ -242,9 +235,10 @@ sap.ui.define([
             sap.ui.core.BusyIndicator.show()
             if (payload.categoryname == undefined || payload.categoryname == "" || payload.price == undefined || payload.price == "" || payload.name == undefined || payload.name == "") {
                 MessageBox.error("Data bharne Badho")
+               sap.ui.core.BusyIndicator.hide()
+
                 return
             }
-
 
             fetch("https://sakhiculapi.vercel.app/api/product", {
                 method: "POST",
