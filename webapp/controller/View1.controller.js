@@ -27,6 +27,9 @@ sap.ui.define([
                 var p = new sap.ui.model.json.JSONModel(products)
                 this.getView().setModel(p, "products")
                 sap.ui.core.BusyIndicator.hide()
+
+                var t = new sap.ui.model.json.JSONModel({"len":products.length})
+                this.getView().setModel(t, "length")
             }
             catch {
 
@@ -135,8 +138,8 @@ sap.ui.define([
         },
         ondelete: async function (oevent) {
             var that = this
-            var catbdy = oevent.getSource().getParent().getParent().getParent().getParent().getBindingContext("categories").getObject()
             sap.ui.core.BusyIndicator.show()
+            var catbdy = oevent.getSource().getParent().getParent().getParent().getParent().getBindingContext("categories").getObject()
 
             fetch("https://sakhiculapi.vercel.app/api/categories", {
                 method: "DELETE",
@@ -157,7 +160,7 @@ sap.ui.define([
                 .then(data => {
                     sap.m.MessageToast.show(data.message);
                     console.log("Deleted:", data);
-
+                    sap.ui.core.BusyIndicator.show()
                     // optional: refresh model or update UI
                 })
                 .catch(err => {

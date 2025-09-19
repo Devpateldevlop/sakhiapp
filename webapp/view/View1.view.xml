@@ -17,6 +17,9 @@
 				
 				<tnt:ToolHeaderUtilitySeparator/>
 				<ToolbarSpacer />
+				<GenericTag text="Product" design="StatusIconHidden" status="Success"  class="sapUiSmallMarginEnd">
+					<ObjectNumber state="Success" emphasized="false" number="{length>/len}"/>
+				</GenericTag>
 				<Avatar initials="A" src="test-resources/sap/tnt/images/Woman_avatar_01.png" displaySize="XS" tooltip="Profile">
 					<layoutData>
 						<OverflowToolbarLayoutData priority="NeverOverflow"/>
