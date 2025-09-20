@@ -28,7 +28,7 @@ sap.ui.define([
                 this.getView().setModel(p, "products")
                 sap.ui.core.BusyIndicator.hide()
 
-                var t = new sap.ui.model.json.JSONModel({"len":products.length})
+                var t = new sap.ui.model.json.JSONModel({ "len": products.length })
                 this.getView().setModel(t, "length")
             }
             catch {
@@ -186,41 +186,40 @@ sap.ui.define([
         },
         oneditproddialog: function (oevent) {
             var pDialog2
-             if (!pDialog2) {
-                    // new sap.m.BusyIndicator.show()
-                    pDialog2 = this.loadFragment({
-                        name: "project1.fragment.editproduct",
-                    });
-                }
-                pDialog2.then(function (oDialog1) {
-                    // new sap.m.BusyIndicator.hide()
-                    oDialog1.open();
+            if (!pDialog2) {
+                // new sap.m.BusyIndicator.show()
+                pDialog2 = this.loadFragment({
+                    name: "project1.fragment.editproduct",
                 });
+            }
+            pDialog2.then(function (oDialog1) {
+                // new sap.m.BusyIndicator.hide()
+                oDialog1.open();
+            });
 
 
             var prodbody = oevent.getSource().getParent().getParent().getParent().getBindingContext("products").getObject()
-             delete prodbody.categoryname
+            delete prodbody.categoryname
             this.getView().getModel("editproductdialog").setData(prodbody)
             this.getView().getModel("editproductdialog").refresh(true)
-            this.editimage=prodbody.images
-           
+            this.editimage = prodbody.images
+
         },
-        editprod:function(oevent)
-        {   var that=this
-               sap.ui.core.BusyIndicator.show()
-             var p= this.getView().getModel("editproductdialog").getData()
-             if(p.images==undefined || p.images=="")
-             {
+        editprod: function (oevent) {
+            var that = this
+            sap.ui.core.BusyIndicator.show()
+            var p = this.getView().getModel("editproductdialog").getData()
+            if (p.images == undefined || p.images == "") {
                 p.images === this.editimage
-             }
-                
-             if (p.categoryname == undefined || p.categoryname == "" || p.price== undefined || p.price == "" || p.name == undefined || p.name == "") {
+            }
+
+            if (p.categoryname == undefined || p.categoryname == "" || p.price == undefined || p.price == "" || p.name == undefined || p.name == "") {
                 MessageBox.error("Data bharne Badho")
                 sap.ui.core.BusyIndicator.hide()
                 return
             }
 
-             fetch("https://sakhiculapi.vercel.app/api/product", {
+            fetch("https://sakhiculapi.vercel.app/api/product", {
                 method: "PUT",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(p)   // send whole object
@@ -229,9 +228,9 @@ sap.ui.define([
                     that.afterupload(oevent)
                     sap.m.MessageToast.show("Update successful!");
                 })
-                .then(data =>{
+                .then(data => {
                     sap.ui.core.BusyIndicator.hide()
-                     sap.m.MessageToast.show("Update Un successful?");
+                    sap.m.MessageToast.show("Update Un successful?");
                 })
                 .catch(err => {
                     sap.ui.core.BusyIndicator.hide()
@@ -247,7 +246,7 @@ sap.ui.define([
             sap.ui.core.BusyIndicator.show()
             if (payload.categoryname == undefined || payload.categoryname == "" || payload.price == undefined || payload.price == "" || payload.name == undefined || payload.name == "") {
                 MessageBox.error("Data bharne Badho")
-               sap.ui.core.BusyIndicator.hide()
+                sap.ui.core.BusyIndicator.hide()
 
                 return
             }
@@ -263,10 +262,10 @@ sap.ui.define([
                     if (!response.ok) {
                         throw new Error("Upload failed");
                     }
-                    
+
                     sap.ui.core.BusyIndicator.hide()
                     sap.m.MessageToast.show(" Un successful?");
-                
+
                     return response.json();
                 })
                 .then(data => {
@@ -275,9 +274,9 @@ sap.ui.define([
                 })
                 .catch(error => {
                     sap.m.MessageToast.show("Upload failed: " + error.message);
-                    
+
                     sap.ui.core.BusyIndicator.hide()
-                
+
                     console.error("Error:", error);
                 });
 
@@ -325,6 +324,20 @@ sap.ui.define([
                 }
 
             })
+        },
+
+
+
+        moreinfopop: async function (oEvent) {
+            var oButton = oEvent.getSource()
+            var path = parseInt(oEvent.getSource().getBindingContext("products").getPath().split("/").pop())
+            this._pRejectDialog = await sap.ui.core.Fragment.load({
+                name: "project1.fragment.moreinfo",
+                controller: this
+            });
+            this.getView().addDependent(this._pRejectDialog.bindElement(`products>/${path}`));
+            this._pRejectDialog.openBy(oButton)
+
         }
 
     });

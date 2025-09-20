@@ -1,0 +1,14 @@
+<core:FragmentDefinition xmlns="sap.m"
+	xmlns:core="sap.ui.core">
+	<Popover placement="Auto" title="{path:'products>Material',formatter:'.trimzeroformatter'}">
+		<HBox>
+			<List>
+				<DisplayListItem label="size :" value="{products>size}" />
+				<DisplayListItem label="description:" value="{products>description}" />
+				<DisplayListItem label="length :" value="{path:'products>length',formatter:'.trimzeroformatter'}" />
+				<DisplayListItem label="categoryname:" value="{path:'products>categoryname',formatter:'.trimzeroformatter'}" />
+				
+			</List>
+		</HBox>
+	</Popover>
+</core:FragmentDefinition>

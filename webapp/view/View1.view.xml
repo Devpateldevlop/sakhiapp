@@ -138,6 +138,7 @@
 				<Label wrapping="true" text="{products>description}" class='sapUiTinyMargin' ></Label>
 				<Title wrapping="true" text="{products>price}" class='sapUiTinyMargin' ></Title>
 				</VBox>
+				<Button press="moreinfopop" icon="sap-icon://hint"></Button>
 			    </HBox>
 			
 				<HBox >	
