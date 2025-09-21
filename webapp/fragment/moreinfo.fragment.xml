@@ -7,7 +7,6 @@
 				<DisplayListItem label="description:" value="{products>description}" />
 				<DisplayListItem label="length :" value="{path:'products>length',formatter:'.trimzeroformatter'}" />
 				<DisplayListItem label="categoryname:" value="{path:'products>categoryname',formatter:'.trimzeroformatter'}" />
-				
 			</List>
 		</HBox>
 	</Popover>

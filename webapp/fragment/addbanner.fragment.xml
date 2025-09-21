@@ -1,0 +1,23 @@
+<m:Dialog titleAlignment="Center" title="Add"
+	xmlns:unified="sap.ui.unified"
+	xmlns:form="sap.ui.layout.form"
+	xmlns:m="sap.m"
+	xmlns="sap.m">
+	<m:content>
+		<Panel class="sapUiTinyMargin" width="95%">
+			<form:SimpleForm >
+				
+				<Label text="Photo"></Label>
+				<unified:FileUploader id="fileUploader2"  change="handleUploadComplete"  uploadComplete="handleUploadComplete" >
+				</unified:FileUploader>
+			</form:SimpleForm>
+		</Panel>
+
+	</m:content>
+	<m:beginButton>
+		<m:Button text="Close" type="Reject" press="onCloseDialog"></m:Button>
+	</m:beginButton>
+	<m:endButton>
+		<m:Button text="Submit" type="Emphasized" press="addbanner"></m:Button>
+	</m:endButton>
+</m:Dialog>

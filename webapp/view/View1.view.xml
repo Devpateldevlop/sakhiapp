@@ -44,6 +44,10 @@
 								text="Products"
 								key="Products">
 						</IconTabFilter>
+						<IconTabFilter
+								text="banner"
+								key="banner">
+						</IconTabFilter>
 					</items>
 				</IconTabHeader>
 			</tnt:ToolHeader>
@@ -157,6 +161,32 @@
 				</content>
 				</Page>
 			
+
+
+
+
+
+			<Page id="banner" showFooter="true" floatingFooter="true" showHeader="false">
+				<footer>
+					<OverflowToolbar >
+					<ToolbarSpacer ></ToolbarSpacer>
+					<Button text="+ ADD banner" type="Emphasized" press="opendialog"></Button>
+					<ToolbarSpacer ></ToolbarSpacer>
+					</OverflowToolbar>
+					</footer>
+				<content>
+				<layout:Grid content="{banner>/}">
+				<layout:content>
+
+				<GenericTile frameType="TwoByOne" press="ondeletebanner" backgroundImage="{banner>image}">
+				</GenericTile>
+
+
+
+				</layout:content>
+				</layout:Grid>
+				</content>
+				</Page>
 			</NavContainer>
 		</tnt:mainContents>
 	</tnt:ToolPage>

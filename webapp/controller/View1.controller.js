@@ -22,6 +22,17 @@ sap.ui.define([
             }
 
             try {
+                const response = await fetch("https://sakhiculapi.vercel.app/api/banner");
+                const categories = await response.json();
+                var j = new sap.ui.model.json.JSONModel(categories)
+                this.getView().setModel(j, "banner")
+                sap.ui.core.BusyIndicator.hide()
+            }
+            catch {
+
+            }
+
+            try {
                 const response = await fetch("https://sakhiculapi.vercel.app/api/product");
                 const products = await response.json();
                 var p = new sap.ui.model.json.JSONModel(products)
@@ -61,7 +72,7 @@ sap.ui.define([
                     oDialog1.open();
                 });
 
-            } else {
+            } else if(this.tabname == "Products"){
                 if (!pDialog2) {
                     // new sap.m.BusyIndicator.show()
                     pDialog2 = this.loadFragment({
@@ -73,6 +84,18 @@ sap.ui.define([
                     oDialog1.open();
                 });
 
+            }
+            else {
+                if (!pDialog2) {
+                    // new sap.m.BusyIndicator.show()
+                    pDialog2 = this.loadFragment({
+                        name: "project1.fragment.addbanner",
+                    });
+                }
+                pDialog2.then(function (oDialog1) {
+                    // new sap.m.BusyIndicator.hide()
+                    oDialog1.open();
+                });
             }
         },
         onCloseDialog: function (oevent) {
@@ -114,6 +137,40 @@ sap.ui.define([
                 });
 
         },
+
+        addbanner:function(oevent)
+        {
+           sap.ui.core.BusyIndicator.show()
+
+            var that = this
+            var obj = {
+                "image": this.imagebas
+            }
+            fetch("https://sakhiculapi.vercel.app/api/banner", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(obj)
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error("Upload failed");
+                    }
+                    sap.ui.core.BusyIndicator.hide()
+                    return response.json();
+
+                })
+                .then(data => {
+                    sap.m.MessageToast.show("Upload successful!");
+                    that.afterupload(oevent)
+                })
+                .catch(error => {
+                    sap.m.MessageToast.show("Upload failed: " + error.message);
+                    sap.ui.core.BusyIndicator.hide()
+                    console.error("Error:", error);
+                });
+        },
         afterupload: async function (oevent) {
             oevent.getSource().getParent().destroy()
             this.getView().getModel("categories").setData("")
@@ -134,6 +191,65 @@ sap.ui.define([
                 };
                 reader.readAsDataURL(file);
             }
+
+        },
+        ondeletebanner:function(oevent)
+        {
+              MessageBox.confirm("Are you sure you want to delete this banner?", {
+                title: "Confirm Deletion",
+                actions: [sap.m.MessageBox.Action.OK, sap.m.MessageBox.Action.CANCEL],
+                onClose: function (oAction) {
+                    if (oAction === sap.m.MessageBox.Action.OK) {
+            var obj=oevent.getSource().getBindingContext("banner").getObject()
+              sap.ui.core.BusyIndicator.show()
+           
+            fetch("https://sakhiculapi.vercel.app/api/categories", {
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(obj)
+            }
+            )
+                .then(res => {
+                    if (!res.ok) {
+                        throw new Error("Delete failed");
+                    }
+                    sap.ui.core.BusyIndicator.hide()
+                    return res.json();
+
+                })
+                .then(data => {
+                    sap.m.MessageToast.show(data.message);
+                    console.log("Deleted:", data);
+                    sap.ui.core.BusyIndicator.show()
+                    // optional: refresh model or update UI
+                })
+                .catch(err => {
+                    sap.m.MessageToast.show("Error: " + err.message);
+                    console.error(err);
+                    sap.ui.core.BusyIndicator.hide()
+
+                });
+            setTimeout(async () => {
+
+                try {
+                    const response = await fetch("https://sakhiculapi.vercel.app/api/categories");
+                    const categories = await response.json();
+                    this.getView().getModel("categories").setData(categories)
+                    this.getView().getModel("categories").refresh(true)
+                    sap.ui.core.BusyIndicator.hide()
+                }
+                catch {
+
+                }
+            }, 2000);
+                                }
+
+
+                }
+
+            })
 
         },
         ondelete: async function (oevent) {
@@ -284,7 +400,7 @@ sap.ui.define([
         deleteproduct: function (oevent) {
             var prodbody = oevent.getSource().getParent().getParent().getParent().getBindingContext("products").getObject()
             var that = this
-            MessageBox.confirm("Are you sure you want to delete this category?", {
+            MessageBox.confirm("Are you sure you want to delete this product?", {
                 title: "Confirm Deletion",
                 actions: [sap.m.MessageBox.Action.OK, sap.m.MessageBox.Action.CANCEL],
                 onClose: function (oAction) {
