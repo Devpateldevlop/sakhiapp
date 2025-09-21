@@ -203,7 +203,7 @@ sap.ui.define([
             var obj=oevent.getSource().getBindingContext("banner").getObject()
               sap.ui.core.BusyIndicator.show()
            
-            fetch("https://sakhiculapi.vercel.app/api/categories", {
+            fetch("https://sakhiculapi.vercel.app/api/banner", {
                 method: "DELETE",
                 headers: {
                     "Content-Type": "application/json"
